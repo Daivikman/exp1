@@ -1,59 +1,80 @@
-Exp 1
+Here’s a beautifully formatted and properly aligned README.md file containing all 6 experiments (Exp 1–6) with syntax highlighting, code blocks, and clear sections — ideal for uploading to GitHub 👇
+
+# 🧪 DevOps & Cloud Experiments — Docker | Jenkins | GitHub Actions | Kubernetes
+
+This repository contains a collection of experiments that demonstrate fundamental DevOps concepts using **Git**, **Docker**, **Flask**, **Jenkins**, **CI/CD pipelines**, and **Kubernetes (Minikube)**.
+
+---
+
+## 🚀 EXPERIMENT 1 — Initialize Git Repository & Push to GitHub
+
+### 📝 Steps
+
+```bash
+# Initialize git repository
 git init
-Create a README file (optional but recommended):
 
-bash
+# Create README file
 echo "# flutterexperiments" >> README.md
-Add files to staging area:
-bash
-git add .
-Commit your changes:
 
-bash
+# Add all files
+git add .
+
+# Commit changes
 git commit -m "first commit"
-Set your main branch name:
-bash
+
+# Set branch name to main
 git branch -M main
-Add your GitHub remote:
-bash
-Copy code
+
+# Add GitHub remote
 git remote add origin https://github.com/deepakurk22cs1081/flutterexperiments.git
-Push your code to GitHub:
+
+# Push code to GitHub
 git push -u origin main
 
-EXP2:
-Step 1: Create Project Folder
-
+🐳 EXPERIMENT 2 — Docker Static Web Page
+📝 Steps
+# Step 1: Create Project Folder
 mkdir docker-demo
 cd docker-demo
 
-Step 2: Create Simple Web Page (index. html)
+
+index.html
+
 <h1>Hello from Docker!</h1>
 
-Step 3: Write Dockerfile (Dockerfile)
+
+Dockerfile
+
 FROM nginx
 COPY index.html /usr/share/nginx/html/index.html
 
-Step 4: Build Docker Image
+# Step 4: Build Docker Image
 docker build -t myweb:v1 .
 
-Step 5: Run Docker Container
+# Step 5: Run Docker Container
 docker run -d -p 8080:80 myweb:v1
 
-Open browser → http://localhost:8080
-EXP3:
-📁 Folder Structure
+
+📍 Open browser → http://localhost:8080
+
+🧠 EXPERIMENT 3 — Flask App in Docker
+
+Folder Structure
+
 flask-docker-app/
 ├── app.py
 ├── requirements.txt
 └── Dockerfile
 
-📝 Step-by-Step Procedure
-✅ Step 1: Create the Flask App
+🧩 Step-by-Step Procedure
+
 app.py
 
 from flask import Flask, render_template_string
+
 app = Flask(__name__)
+
 HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="en">
@@ -68,14 +89,8 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 text-align: center;
 padding-top: 100px;
 }
-
-h1 {
-font-size: 3em;
-margin-bottom: 0.2em;
-}
-p {
-font-size: 1.5em;
-}
+h1 { font-size: 3em; margin-bottom: 0.2em; }
+p { font-size: 1.5em; }
 .card {
 background: rgba(255, 255, 255, 0.1);
 padding: 2em;
@@ -95,440 +110,341 @@ margin: auto;
 </body>
 </html>
 """
+
 @app.route('/')
 def home():
-return render_template_string(HTML_TEMPLATE)
+    return render_template_string(HTML_TEMPLATE)
+
 if __name__ == '__main__':
-app.run(host='0.0.0.0', port=5000)
-✅ Step 2: Create requirements.txt
+    app.run(host='0.0.0.0', port=5000)
+
+
+requirements.txt
+
 Flask==2.2.5
-✅ Step 3: Create Dockerfile
+
+
+Dockerfile
+
 FROM python:3.9-slim
 WORKDIR /app
-
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .
 EXPOSE 5000
 CMD ["python", "app.py"]
 
-✅ Step 4: Build Docker Image
+🧱 Build & Run
+# Build Docker Image
 docker build -t flask-docker-app .
-✅ Step 5: Run the Container
-If port 5000 is free:
+
+# Run Container (choose one)
 docker run -p 5000:5000 flask-docker-app
-If port 5000 is occupied:
+# or if port 5000 is occupied
 docker run -p 5050:5000 flask-docker-app
-Visit: http://localhost:5050
-EXP 4:
+
+
+Visit → http://localhost:5050
+
+⚙️ EXPERIMENT 4 — Jenkins Static Site Pipeline (Docker Compose)
 Step 1: Set up Jenkins with Docker Compose
-Create a folder for the lab:
 mkdir ~/jenkins-static-site && cd ~/jenkins-static-site
-Create a docker-compose.yml file:
+
+
+docker-compose.yml
+
 version: '3.8'
 services:
-jenkins:
-image: jenkins/jenkins:lts
-container_name: jenkins
-restart: unless-stopped
-ports:
-- "8080:8080"
-- "50000:50000"
-volumes:
-- jenkins_home:/var/jenkins_home
-- /var/run/docker.sock:/var/run/docker.sock
-•
-•
-•
-•
-
-•
-•
-•
-•
-
-1.
-
-1.
-
-1
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
-jenkins_home:
-driver: local
-Start Jenkins:
+  jenkins_home:
+    driver: local
+
+# Start Jenkins
 docker compose up -d
-Get the initial admin password:
+
+# Get the initial admin password
 docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
-Open Jenkins in the browser: http://localhost:8080
-Complete setup → install suggested plugins → create admin user.
+
+
+🔗 Open http://localhost:8080
+ → Complete setup → Install plugins → Create admin user.
 
 Step 2: Install HTML Publisher Plugin
-In Jenkins: Manage Jenkins → Plugins → Available Plugins.
-Search for HTML Publisher and install it.
-Restart Jenkins if prompted.
 
-Step 3: Create the Pipeline Job
-In Jenkins, click New Item → select Pipeline → name it karunya-site-pipeline .
-Scroll to Pipeline → Definition and select Pipeline script.
-Paste the following script:
+Manage Jenkins → Plugins → Available → Search “HTML Publisher” → Install → Restart Jenkins.
+
+Step 3: Create Pipeline Job
+
+Pipeline Script
+
 pipeline {
-agent any
-stages {
-stage('Generate site') {
-steps {
-script {
-sh 'rm -rf site || true'
-sh 'mkdir -p site/assets'
-writeFile file: 'site/index.html', text: """
+    agent any
+    stages {
+        stage('Generate site') {
+            steps {
+                script {
+                    sh 'rm -rf site || true'
+                    sh 'mkdir -p site/assets'
 
+                    writeFile file: 'site/index.html', text: """
 <!doctype html>
-<html lang=\"en\">
+<html lang="en">
 <head>
-1.
-
-1.
-
-1.
-2.
-
-1.
-2.
-3.
-
-1.
-2.
-3.
-
-2
-
-<meta charset=\"utf-8\"/>
-
-<meta name=\"viewport\" content=\"width=device-width, initial-
-scale=1\"/>
-
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Karunya University — Simple Site</title>
-<link rel=\"stylesheet\" href=\"assets/style.css\"/>
+<link rel="stylesheet" href="assets/style.css"/>
 </head>
 <body>
-<header class=\"site-header\">
-<div class=\"container\">
+<header class="site-header">
+<div class="container">
 <h1>Karunya University</h1>
-<p class=\"tagline\">Values — Knowledge — Service</p>
+<p class="tagline">Values — Knowledge — Service</p>
 </div>
 </header>
-<main class=\"container\">
-<section class=\"card\">
+<main class="container">
+<section class="card">
 <h2>About Karunya University</h2>
-<p>Karunya Institute of Technology and Sciences is a leading
-centre for higher education in India.</p>
+<p>Karunya Institute of Technology and Sciences is a leading centre for higher education in India.</p>
 </section>
 </main>
-<footer class=\"site-footer container\">
-<p>&copy; ${new Date().format('yyyy')} Karunya University —
-Generated by Jenkins</p>
+<footer class="site-footer container">
+<p>&copy; ${new Date().format('yyyy')} Karunya University — Generated by Jenkins</p>
 </footer>
 </body>
 </html>
 """
 
-writeFile file: 'site/assets/style.css', text: """
+                    writeFile file: 'site/assets/style.css', text: """
 body { font-family: Arial, sans-serif; margin:0; }
 .container { max-width:800px; margin:0 auto; padding:20px; }
 .site-header { background:#0b3d91; color:#fff; padding:20px; }
 .tagline { font-size:14px; opacity:0.8; }
-.card { background:#fff; border:1px solid #ddd; padding:15px; margin:
-15px 0; border-radius:6px; }
-
-.site-footer { text-align:center; font-size:12px; color:#555; margin-
-top:20px; }
-
+.card { background:#fff; border:1px solid #ddd; padding:15px; margin:15px 0; border-radius:6px; }
+.site-footer { text-align:center; font-size:12px; color:#555; margin-top:20px; }
 """
+                }
+            }
+        }
+        stage('Publish site') {
+            steps {
+                publishHTML ([
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'site',
+                    reportFiles: 'index.html',
+                    reportName: 'Karunya University - Simple Site'
+                ])
+            }
+        }
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: 'site/**', fingerprint: true
+        }
+    }
 }
-}
-}
-stage('Publish site') {
-steps {
-publishHTML ([
-allowMissing: false,
 
-3
 
-alwaysLinkToLastBuild: true,
-keepAll: true,
-reportDir: 'site',
-reportFiles: 'index.html',
-reportName: 'Karunya University - Simple Site'
-])
-}
-}
-}
-post {
-always {
-archiveArtifacts artifacts: 'site/**', fingerprint: true
-}
-}
-}
-Save the pipeline.
+🖥️ Click Build Now → View “Karunya University - Simple Site”.
 
-Step 4: Run and View the Website
-Click Build Now.
-After success, go to the build page.
-On the left menu, click Karunya University - Simple Site.
-You should see the static site rendered inside Jenkins.
-Alternatively, download the archived artifact (the site/ folder) and open index.html locally.
-EXP 5:
-STEP 1 — Create a new project folder
-------------------------------------
+🧩 EXPERIMENT 5 — Python CI/CD with GitHub Actions + Docker Hub
+Step 1: Create Project
 mkdir python-ci-docker-lab
 cd python-ci-docker-lab
-STEP 2 — Create application files
----------------------------------
+
+
 app.py
-------
+
 def add(a, b):
-return a + b
+    return a + b
+
 if __name__ == "__main__":
-print("Hello from Python CI Lab!")
-print("2 + 3 =", add(2, 3))
+    print("Hello from Python CI Lab!")
+    print("2 + 3 =", add(2, 3))
+
+
 tests/test_app.py
------------------
+
 from app import add
+
 def test_add():
-assert add(2, 3) == 5
-assert add(-1, 1) == 0
+    assert add(2, 3) == 5
+    assert add(-1, 1) == 0
+
+
 requirements.txt
-----------------
+
 pytest==8.3.2
+
+
 Dockerfile
-----------
+
 FROM python:3.11-slim
 WORKDIR /app
 COPY requirements.txt .
-
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 CMD ["python", "app.py"]
+
+
 .gitignore
-----------
+
 __pycache__/
 .venv/
 .pytest_cache/
 .DS_Store
 *.pyc
-STEP 3 — Add GitHub Actions workflow
-------------------------------------
-mkdir -p .github/workflows
+
+Step 3: Add GitHub Actions Workflow
+
 .github/workflows/ci-dockerhub.yml
-----------------------------------
+
 name: ci-dockerhub
 on:
-push:
-branches: [ "main" ]
-tags: [ "*" ]
-pull_request:
-branches: [ "main" ]
-jobs:
-build-test-push:
-runs-on: ubuntu-latest
-steps:
-- name: Checkout
-uses: actions/checkout@v4
-- name: Set up Python
-uses: actions/setup-python@v5
-with:
-python-version: '3.11'
-- name: Install deps
-run: |
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-- name: Run tests
-run: pytest -q
-- name: Docker meta
-id: meta
-uses: docker/metadata-action@v5
-with:
-images: ${{ secrets.DOCKERHUB_USERNAME }}/python-ci-lab
+  push:
+    branches: [ "main" ]
+    tags: [ "*" ]
+  pull_request:
+    branches: [ "main" ]
 
-tags: |
-type=raw,value=latest,enable={{is_default_branch}}
-type=sha,prefix=sha-,format=short
-type=ref,event=tag
-- name: Set up QEMU
-uses: docker/setup-qemu-action@v3
-- name: Set up Docker Buildx
-uses: docker/setup-buildx-action@v3
-- name: Login to Docker Hub
-uses: docker/login-action@v3
-with:
-username: ${{ secrets.DOCKERHUB_USERNAME }}
-password: ${{ secrets.DOCKERHUB_TOKEN }}
-- name: Build and push
-uses: docker/build-push-action@v6
-with:
-context: .
-push: true
-tags: ${{ steps.meta.outputs.tags }}
-labels: ${{ steps.meta.outputs.labels }}
-platforms: linux/amd64
-STEP 4 — Test locally (optional)
---------------------------------
+jobs:
+  build-test-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: pytest -q
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/python-ci-lab
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,prefix=sha-,format=short
+            type=ref,event=tag
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64
+
+Step 4: Test Locally
 python app.py
 pytest -q
 docker build -t yourname/python-ci-lab:local .
 docker run --rm yourname/python-ci-lab:local
-STEP 5 — Initialize Git & push to GitHub
-----------------------------------------
+
+Step 5: Push to GitHub
 git init
 git add .
 git commit -m "init lab"
 git branch -M main
 git remote add origin https://github.com/<your-username>/python-ci-docker-lab.git
 git push -u origin main
-STEP 6 — Add GitHub Secrets
----------------------------
-- DOCKERHUB_USERNAME (your Docker Hub username)
-- DOCKERHUB_TOKEN (Docker Hub access token)
-STEP 7 — Watch CI run
----------------------
-Go to GitHub → Actions tab → select workflow run → view logs.
-STEP 8 — Verify image on Docker Hub
------------------------------------
-docker.io/<DOCKERHUB_USERNAME>/python-ci-lab
 
-STEP 9 — Release with a tag (optional)
---------------------------------------
-git tag v1.0.0
-git push origin v1.0.0
-TROUBLESHOOTING
----------------
-- Docker login failed → Check token
-- No image → Inspect build logs
-- Tests failing → Run pytest locally
-- Port in use → Use docker run -p 8080:8000
-STRETCH GOALS
--------------
-- Add staging/prod environments with approvals
-- Publish to GHCR/ACR
-- Add image scanning
-- Deploy to AKS/ECS/App Service
-EXP6
-Quick Checklist Before You Start
-● Terminal (Linux/macOS) or PowerShell (Windows) ready.
-● Admin/sudo access to install software.
-● Docker and Minikube installed.
 
-Install the Tools
-We will use Minikube for the local Kubernetes cluster. It runs a single-node cluster inside
-Docker.
-You need: Docker (or Docker Desktop), kubectl, and Minikube.
+Add GitHub Secrets:
 
-A. Install Docker
-Windows:
-1. Download and install Docker Desktop from Docker's website.
-2. Enable WSL2 backend during installation.
-3. Start Docker Desktop and ensure it is running.
+DOCKERHUB_USERNAME
 
-Verify Docker installation:
-docker --version
+DOCKERHUB_TOKEN
 
-B. Install kubectl (Kubernetes CLI)
-Windows (using Chocolatey):
-choco install kubernetes-cli
+Step 6: Verify Image
 
-Verify installation:
-kubectl version --client
+Go to GitHub → Actions tab → view logs → check Docker Hub repository
+✅ Image: docker.io/<DOCKERHUB_USERNAME>/python-ci-lab
 
-C. Install and Start Minikube
-Windows (using Chocolatey):
-choco install minikube
-minikube start --driver=docker
+☸️ EXPERIMENT 6 — Kubernetes with Minikube
+Prerequisites
 
-Verify the cluster is running:
-minikube status
-kubectl get nodes
+Docker installed
 
-If kubectl get nodes returns a node in Ready state — you are ready to go!
+kubectl CLI installed
 
-🧩 Step 1: Create a Simple Pod
-Create a file: nginx-pod.yaml
+Minikube installed
+
+Step 1: Create a Simple Pod
+
+nginx-pod.yaml
+
 apiVersion: v1
 kind: Pod
 metadata:
-name: nginx-pod
-labels:
-app: nginx
+  name: nginx-pod
+  labels:
+    app: nginx
 spec:
-containers:
-- name: nginx
-image: nginx:latest
-ports:
-- containerPort: 80
+  containers:
+    - name: nginx
+      image: nginx:latest
+      ports:
+        - containerPort: 80
 
-Apply the manifest:
 kubectl apply -f nginx-pod.yaml
-
-Check pod status:
 kubectl get pods
-# expected: nginx-pod 1/1 Running
-
-Describe the pod (to see detailed info):
 kubectl describe pod nginx-pod
-
-Forward the port locally to access it in the browser:
 kubectl port-forward pod/nginx-pod 8080:80
 
-Then open http://localhost:8080 in your browser.
-When done, delete the pod:
-kubectl delete pod nginx-pod
 
-🧩 Step 2: Deployment and Scaling
-Create a deployment:
+🌐 Open → http://localhost:8080
+
+Step 2: Deployment and Scaling
 kubectl create deployment my-nginx --image=nginx
-
-Check deployments and pods:
 kubectl get deployments
 kubectl get pods -l app=my-nginx
-
-Scale to 3 replicas:
 kubectl scale deployment my-nginx --replicas=3
-kubectl get pods
-
-Update the image (rolling update):
 kubectl set image deployment/my-nginx nginx=nginx:1.25
 kubectl rollout status deployment/my-nginx
-
-If something goes wrong, rollback:
 kubectl rollout undo deployment/my-nginx
 
-🧩 Step 3: Expose Deployment as a Service
-Expose the deployment using a NodePort service:
+Step 3: Expose Deployment as a Service
 kubectl expose deployment my-nginx --type=NodePort --port=80
 kubectl get svc
-
-Get the URL of your app using Minikube:
 minikube service my-nginx --url
 
-Open the displayed URL in your browser.
-
-To remove the service:
-kubectl delete svc my-nginx
-
-🧹 Step 4: Cleanup
-After the lab, clean up all created resources:
+Step 4: Cleanup
 kubectl delete deployment my-nginx
 kubectl delete svc my-nginx
 kubectl delete all --all -n default
-
-If you want to stop or delete the cluster:
 minikube stop
 minikube delete
-
-🧾 Summary
-In this lab, you learned how to:
-1. Install Docker, kubectl, and Minikube.
-2. Create and manage Pods.
-3. Deploy and scale applications.
-4. Expose Deployments as services.
-5. Clean up resources safely.
-![Uploading image.png…]()
