@@ -1,83 +1,43 @@
-Projects & Labs — Experiments Collection
+Here’s a beautifully formatted and properly aligned README.md file containing all 6 experiments (Exp 1–6) with syntax highlighting, code blocks, and clear sections — ideal for uploading to GitHub 👇
 
-This repository README contains Experiments 1–6.
-Each experiment is presented in a GitHub README-friendly format with three clearly separated parts:
+# 🧪 DevOps & Cloud Experiments — Docker | Jenkins | GitHub Actions | Kubernetes
 
-Files — filenames you should create.
+This repository contains a collection of experiments that demonstrate fundamental DevOps concepts using **Git**, **Docker**, **Flask**, **Jenkins**, **CI/CD pipelines**, and **Kubernetes (Minikube)**.
 
-Commands — terminal/CLI commands to run (one-per-line blocks).
+---
 
-Code / File contents — exact contents to put into each file (code blocks).
+## 🚀 EXPERIMENT 1 — Initialize Git Repository & Push to GitHub
 
-Table of contents
+### 📝 Steps
 
-Experiment 1 — Initialize Git & push to GitHub
-
-Experiment 2 — Simple Docker static site (nginx)
-
-Experiment 3 — Flask app in Docker
-
-Experiment 4 — Jenkins static-site pipeline (docker-compose + Jenkins pipeline)
-
-Experiment 5 — Python CI + Docker + GitHub Actions
-
-Experiment 6 — Minikube / Kubernetes local lab
-
-Experiment 1 — Initialize Git & push to GitHub
-Files
-
-README.md (optional — this file)
-
-(your project files — e.g., Flutter project files)
-
-Commands
-# Initialize git repo
+```bash
+# Initialize git repository
 git init
 
-# (optional) create README
+# Create README file
 echo "# flutterexperiments" >> README.md
 
-# Stage all files
+# Add all files
 git add .
 
 # Commit changes
 git commit -m "first commit"
 
-# Set main branch name
+# Set branch name to main
 git branch -M main
 
-# Add GitHub remote (replace URL if needed)
+# Add GitHub remote
 git remote add origin https://github.com/deepakurk22cs1081/flutterexperiments.git
 
-# Push to GitHub
+# Push code to GitHub
 git push -u origin main
 
-Notes / Code
-
-No additional code files provided here — use the commands above in your project root.
-
-Experiment 2 — Simple Docker static site (nginx)
-Files
-
-index.html
-
-Dockerfile
-
-Commands
-# create folder and enter it (optional)
+🐳 EXPERIMENT 2 — Docker Static Web Page
+📝 Steps
+# Step 1: Create Project Folder
 mkdir docker-demo
 cd docker-demo
 
-# Build the docker image (tag: myweb:v1)
-docker build -t myweb:v1 .
-
-# Run the container mapping port 8080 to container's 80
-docker run -d -p 8080:80 myweb:v1
-
-# Open in browser:
-# http://localhost:8080
-
-Code / File contents
 
 index.html
 
@@ -89,37 +49,30 @@ Dockerfile
 FROM nginx
 COPY index.html /usr/share/nginx/html/index.html
 
-Experiment 3 — Flask app in Docker
-Files
+# Step 4: Build Docker Image
+docker build -t myweb:v1 .
 
-app.py
+# Step 5: Run Docker Container
+docker run -d -p 8080:80 myweb:v1
 
-requirements.txt
 
-Dockerfile
+📍 Open browser → http://localhost:8080
 
-Commands
-# create project folder (optional)
-mkdir flask-docker-app
-cd flask-docker-app
+🧠 EXPERIMENT 3 — Flask App in Docker
 
-# build docker image (tag: flask-docker-app)
-docker build -t flask-docker-app .
+Folder Structure
 
-# run container (map host port 5000 to container 5000)
-docker run -p 5000:5000 flask-docker-app
+flask-docker-app/
+├── app.py
+├── requirements.txt
+└── Dockerfile
 
-# if 5000 is occupied, use alternative host port (e.g., 5050):
-docker run -p 5050:5000 flask-docker-app
-
-# Open in browser:
-# http://localhost:5000   # or http://localhost:5050 if using alternate port
-
-Code / File contents
+🧩 Step-by-Step Procedure
 
 app.py
 
 from flask import Flask, render_template_string
+
 app = Flask(__name__)
 
 HTML_TEMPLATE = """
@@ -130,29 +83,29 @@ HTML_TEMPLATE = """
 <title>Flask Docker App</title>
 <style>
 body {
-  background: linear-gradient(to right, #00c6ff, #0072ff);
-  color: white;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  text-align: center;
-  padding-top: 100px;
+background: linear-gradient(to right, #00c6ff, #0072ff);
+color: white;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+text-align: center;
+padding-top: 100px;
 }
 h1 { font-size: 3em; margin-bottom: 0.2em; }
 p { font-size: 1.5em; }
 .card {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 2em;
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
-  width: 50%;
-  margin: auto;
+background: rgba(255, 255, 255, 0.1);
+padding: 2em;
+border-radius: 20px;
+box-shadow: 0 0 20px rgba(0,0,0,0.3);
+width: 50%;
+margin: auto;
 }
 </style>
 </head>
 <body>
 <div class="card">
-  <h1>🚀 Welcome to Flask + Docker!</h1>
-  <p>This is a vibrant web page running inside a Docker container.</p>
-  <p>Change the code → Rebuild → Restart Docker to see updates!</p>
+<h1>🚀 Welcome to Flask + Docker!</h1>
+<p>This is a vibrant web page running inside a Docker container.</p>
+<p>Change the code → Rebuild → Restart Docker to see updates!</p>
 </div>
 </body>
 </html>
@@ -175,37 +128,28 @@ Dockerfile
 
 FROM python:3.9-slim
 WORKDIR /app
-
 COPY requirements.txt .
 RUN pip install -r requirements.txt
-
 COPY . .
 EXPOSE 5000
 CMD ["python", "app.py"]
 
-Experiment 4 — Jenkins static-site pipeline (docker-compose + Jenkins pipeline)
-Files
+🧱 Build & Run
+# Build Docker Image
+docker build -t flask-docker-app .
 
-docker-compose.yml
+# Run Container (choose one)
+docker run -p 5000:5000 flask-docker-app
+# or if port 5000 is occupied
+docker run -p 5050:5000 flask-docker-app
 
-(Jenkins pipeline script — place inside Jenkins Pipeline job as "Pipeline script")
 
-(optional) site/index.html and site/assets/style.css will be generated by the pipeline
+Visit → http://localhost:5050
 
-Commands
-# create folder and enter it
+⚙️ EXPERIMENT 4 — Jenkins Static Site Pipeline (Docker Compose)
+Step 1: Set up Jenkins with Docker Compose
 mkdir ~/jenkins-static-site && cd ~/jenkins-static-site
 
-# start Jenkins using docker-compose (in this folder)
-docker compose up -d
-
-# to get initial admin password from Jenkins container
-docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
-
-# open Jenkins in browser:
-# http://localhost:8080
-
-Code / File contents
 
 docker-compose.yml
 
@@ -226,131 +170,101 @@ volumes:
   jenkins_home:
     driver: local
 
+# Start Jenkins
+docker compose up -d
 
-Jenkins Pipeline script (paste into the job Pipeline > Definition: Pipeline script)
+# Get the initial admin password
+docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+
+
+🔗 Open http://localhost:8080
+ → Complete setup → Install plugins → Create admin user.
+
+Step 2: Install HTML Publisher Plugin
+
+Manage Jenkins → Plugins → Available → Search “HTML Publisher” → Install → Restart Jenkins.
+
+Step 3: Create Pipeline Job
+
+Pipeline Script
 
 pipeline {
-  agent any
-  stages {
-    stage('Generate site') {
-      steps {
-        script {
-          sh 'rm -rf site || true'
-          sh 'mkdir -p site/assets'
-          writeFile file: 'site/index.html', text: """
+    agent any
+    stages {
+        stage('Generate site') {
+            steps {
+                script {
+                    sh 'rm -rf site || true'
+                    sh 'mkdir -p site/assets'
+
+                    writeFile file: 'site/index.html', text: """
 <!doctype html>
-<html lang=\"en\">
+<html lang="en">
 <head>
-<meta charset=\"utf-8\"/>
-<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Karunya University — Simple Site</title>
-<link rel=\"stylesheet\" href=\"assets/style.css\"/>
+<link rel="stylesheet" href="assets/style.css"/>
 </head>
 <body>
-<header class=\"site-header\">
-  <div class=\"container\">
-    <h1>Karunya University</h1>
-    <p class=\"tagline\">Values — Knowledge — Service</p>
-  </div>
+<header class="site-header">
+<div class="container">
+<h1>Karunya University</h1>
+<p class="tagline">Values — Knowledge — Service</p>
+</div>
 </header>
-<main class=\"container\">
-  <section class=\"card\">
-    <h2>About Karunya University</h2>
-    <p>Karunya Institute of Technology and Sciences is a leading centre for higher education in India.</p>
-  </section>
+<main class="container">
+<section class="card">
+<h2>About Karunya University</h2>
+<p>Karunya Institute of Technology and Sciences is a leading centre for higher education in India.</p>
+</section>
 </main>
-<footer class=\"site-footer container\">
-  <p>&copy; ${new Date().format('yyyy')} Karunya University — Generated by Jenkins</p>
+<footer class="site-footer container">
+<p>&copy; ${new Date().format('yyyy')} Karunya University — Generated by Jenkins</p>
 </footer>
 </body>
 </html>
 """
-          writeFile file: 'site/assets/style.css', text: """
+
+                    writeFile file: 'site/assets/style.css', text: """
 body { font-family: Arial, sans-serif; margin:0; }
 .container { max-width:800px; margin:0 auto; padding:20px; }
 .site-header { background:#0b3d91; color:#fff; padding:20px; }
 .tagline { font-size:14px; opacity:0.8; }
-.card { background:#fff; border:1px solid #ddd; padding:15px; margin: 15px 0; border-radius:6px; }
+.card { background:#fff; border:1px solid #ddd; padding:15px; margin:15px 0; border-radius:6px; }
 .site-footer { text-align:center; font-size:12px; color:#555; margin-top:20px; }
 """
+                }
+            }
         }
-      }
+        stage('Publish site') {
+            steps {
+                publishHTML ([
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'site',
+                    reportFiles: 'index.html',
+                    reportName: 'Karunya University - Simple Site'
+                ])
+            }
+        }
     }
-    stage('Publish site') {
-      steps {
-        publishHTML ([
-          allowMissing: false,
-          alwaysLinkToLastBuild: true,
-          keepAll: true,
-          reportDir: 'site',
-          reportFiles: 'index.html',
-          reportName: 'Karunya University - Simple Site'
-        ])
-      }
+    post {
+        always {
+            archiveArtifacts artifacts: 'site/**', fingerprint: true
+        }
     }
-  }
-  post {
-    always {
-      archiveArtifacts artifacts: 'site/**', fingerprint: true
-    }
-  }
 }
 
-How to run & view
 
-Start Jenkins via Docker Compose (see commands above).
+🖥️ Click Build Now → View “Karunya University - Simple Site”.
 
-Open Jenkins (http://localhost:8080), complete initial setup, install suggested plugins, create admin user.
-
-Install HTML Publisher Plugin (Manage Jenkins → Plugins → Available → search HTML Publisher).
-
-Create a Pipeline job named karunya-site-pipeline and paste the pipeline script above.
-
-Click Build Now → open the build → click Karunya University - Simple Site to view the generated static site.
-
-Experiment 5 — Python CI + Docker + GitHub Actions
-Files
-
-app.py
-
-tests/test_app.py
-
-requirements.txt
-
-Dockerfile
-
-.gitignore
-
-.github/workflows/ci-dockerhub.yml
-
-Commands
-# create project dir and enter
+🧩 EXPERIMENT 5 — Python CI/CD with GitHub Actions + Docker Hub
+Step 1: Create Project
 mkdir python-ci-docker-lab
 cd python-ci-docker-lab
 
-# run locally (optional)
-python app.py
-pytest -q
-
-# build local docker image
-docker build -t yourname/python-ci-lab:local .
-
-# run docker image locally
-docker run --rm yourname/python-ci-lab:local
-
-# initialize git and push to GitHub (replace remote URL)
-git init
-git add .
-git commit -m "init lab"
-git branch -M main
-git remote add origin https://github.com/<your-username>/python-ci-docker-lab.git
-git push -u origin main
-
-# add GitHub secrets (in repo settings):
-# DOCKERHUB_USERNAME
-# DOCKERHUB_TOKEN
-
-Code / File contents
 
 app.py
 
@@ -394,6 +308,7 @@ __pycache__/
 .DS_Store
 *.pyc
 
+Step 3: Add GitHub Actions Workflow
 
 .github/workflows/ci-dockerhub.yml
 
@@ -435,9 +350,6 @@ jobs:
             type=sha,prefix=sha-,format=short
             type=ref,event=tag
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -456,83 +368,42 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64
 
-Notes
+Step 4: Test Locally
+python app.py
+pytest -q
+docker build -t yourname/python-ci-lab:local .
+docker run --rm yourname/python-ci-lab:local
 
-Add Docker Hub secrets in repository Settings → Secrets.
+Step 5: Push to GitHub
+git init
+git add .
+git commit -m "init lab"
+git branch -M main
+git remote add origin https://github.com/<your-username>/python-ci-docker-lab.git
+git push -u origin main
 
-After push to main, GitHub Actions will run tests, build image, and push to Docker Hub.
 
-Experiment 6 — Minikube / Kubernetes local lab
-Files
+Add GitHub Secrets:
 
-nginx-pod.yaml (example pod manifest)
+DOCKERHUB_USERNAME
 
-Commands
-# Verify Docker
-docker --version
+DOCKERHUB_TOKEN
 
-# Verify kubectl
-kubectl version --client
+Step 6: Verify Image
 
-# Start Minikube (driver: docker)
-minikube start --driver=docker
+Go to GitHub → Actions tab → view logs → check Docker Hub repository
+✅ Image: docker.io/<DOCKERHUB_USERNAME>/python-ci-lab
 
-# Check cluster state
-minikube status
-kubectl get nodes
+☸️ EXPERIMENT 6 — Kubernetes with Minikube
+Prerequisites
 
-# Create a Pod from YAML
-kubectl apply -f nginx-pod.yaml
+Docker installed
 
-# Check pods
-kubectl get pods
+kubectl CLI installed
 
-# Describe pod for details
-kubectl describe pod nginx-pod
+Minikube installed
 
-# Port-forward to access pod on localhost:8080 -> container port 80
-kubectl port-forward pod/nginx-pod 8080:80
-
-# Open http://localhost:8080 in browser
-
-# When finished, delete the pod
-kubectl delete pod nginx-pod
-
-# Create deployment
-kubectl create deployment my-nginx --image=nginx
-
-# Check deployments and pods
-kubectl get deployments
-kubectl get pods -l app=my-nginx
-
-# Scale to 3 replicas
-kubectl scale deployment my-nginx --replicas=3
-kubectl get pods
-
-# Rolling update (example)
-kubectl set image deployment/my-nginx nginx=nginx:1.25
-kubectl rollout status deployment/my-nginx
-
-# Rollback if needed
-kubectl rollout undo deployment/my-nginx
-
-# Expose deployment as NodePort service
-kubectl expose deployment my-nginx --type=NodePort --port=80
-kubectl get svc
-
-# Get URL for Minikube service (opens browser if desired)
-minikube service my-nginx --url
-
-# Cleanup examples
-kubectl delete deployment my-nginx
-kubectl delete svc my-nginx
-kubectl delete all --all -n default
-
-# Stop & delete Minikube cluster (if desired)
-minikube stop
-minikube delete
-
-Code / File contents
+Step 1: Create a Simple Pod
 
 nginx-pod.yaml
 
@@ -549,20 +420,31 @@ spec:
       ports:
         - containerPort: 80
 
-Notes
+kubectl apply -f nginx-pod.yaml
+kubectl get pods
+kubectl describe pod nginx-pod
+kubectl port-forward pod/nginx-pod 8080:80
 
-Ensure Docker, kubectl, and minikube are installed before starting.
 
-On Windows, you can use Chocolatey for kubectl and minikube installation (as noted in your lab outline).
+🌐 Open → http://localhost:8080
 
-Final notes
+Step 2: Deployment and Scaling
+kubectl create deployment my-nginx --image=nginx
+kubectl get deployments
+kubectl get pods -l app=my-nginx
+kubectl scale deployment my-nginx --replicas=3
+kubectl set image deployment/my-nginx nginx=nginx:1.25
+kubectl rollout status deployment/my-nginx
+kubectl rollout undo deployment/my-nginx
 
-Each experiment above is self-contained — create the listed files and run the listed commands in that experiment's folder.
+Step 3: Expose Deployment as a Service
+kubectl expose deployment my-nginx --type=NodePort --port=80
+kubectl get svc
+minikube service my-nginx --url
 
-Use the exact file contents in the "Code / File contents" blocks when creating the files.
-
-If you'd like, I can:
-
-generate a single downloadable README.md file with all content above, or
-
-create separate example repos (one per experiment) and provide ready-to-use Git commands to create them locally.
+Step 4: Cleanup
+kubectl delete deployment my-nginx
+kubectl delete svc my-nginx
+kubectl delete all --all -n default
+minikube stop
+minikube delete
